@@ -1,0 +1,6 @@
+__pycache__/
+*.py[cod]
+*.part
+yt_dlp/
+.pytest_cache/
+.venv/

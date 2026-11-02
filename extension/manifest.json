@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "抖音后台遥控",
+  "version": "1.4.1",
+  "description": "通过本机控制窗操作后台抖音标签页。",
+  "permissions": ["debugger", "tabs", "alarms", "downloads"],
+  "host_permissions": ["https://www.douyin.com/*", "http://127.0.0.1:17853/*"],
+  "background": {"service_worker": "background.js"},
+  "content_scripts": [{
+    "matches": ["https://www.douyin.com/*"],
+    "js": ["content.js"],
+    "run_at": "document_idle"
+  }]
+}
