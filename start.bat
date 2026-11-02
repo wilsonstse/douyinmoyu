@@ -1,8 +1,13 @@
 @echo off
 cd /d "%~dp0"
-python desktop.py
+if not exist "dist\remote.exe" (
+  echo Missing dist\remote.exe. Please download the complete repository.
+  pause
+  exit /b 1
+)
+"dist\remote.exe"
 if errorlevel 1 (
   echo.
-  echo Failed to start. Please copy the error above and send it to me.
+  echo Failed to start remote.exe.
   pause
 )

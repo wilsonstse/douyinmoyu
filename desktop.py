@@ -9,12 +9,12 @@ import socket
 import threading
 import time
 import tkinter as tk
-from tkinter import ttk
+from tkinter import messagebox, ttk
 import urllib.parse
 import urllib.request
 import shutil
 
-HOST, PORT = "127.0.0.1", 17853
+HOST, PORT = "127.0.0.1", int(os.environ.get("DOUYIN_REMOTE_PORT", "17853"))
 MAGIC = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
 clients = {}
 lock = threading.Lock()
@@ -249,7 +249,13 @@ def serve(listener):
 def main():
     listener = socket.socket()
     listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    listener.bind((HOST, PORT))
+    try:
+        listener.bind((HOST, PORT))
+    except OSError as error:
+        listener.close()
+        messagebox.showerror("remote", f"无法启动：端口 {PORT} 已被占用或不可用。\n"
+                             f"请先关闭已运行的控制窗。\n\n{error}")
+        return
     listener.listen(5)
     threading.Thread(target=serve, args=(listener,), daemon=True).start()
 
